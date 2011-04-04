@@ -1,0 +1,3 @@
+bottle==0.8.5
+Pygments==1.4
+Jinja2==2.5.5

@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>CodeBrowser</title>
+<style type="text/css">
+  {{ styles }}
+</style>
+</head>
+<body>
+
+<h2>Object Attributes</h2>
+
+<ul>
+  {% for attr in obj_attrs %}
+    <li>{{ attr }}</li>
+  {% endfor %}
+</ul>
+
+<h2>Class Hierarchy</h2>
+
+{% for source in class_sources %}
+  {{ source }}
+{% endfor %}
+
+</body>
+</html>
+
