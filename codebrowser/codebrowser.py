@@ -3,8 +3,6 @@ import inspect
 import pdb
 import pyclbr
 import symtable
-import sys
-import traceback
 
 
 class CodeBrowser(object):
@@ -41,14 +39,17 @@ class CodeBrowser(object):
 
         return objs
 
+    def get_class_name(self):
+        return self.obj.__class__.__name__
+
     def get_class_source(self):
         return inspect.getsource(self.obj.__class__)
+
+    def get_object_source(self):
+        return inspect.getsource(self.obj)
 
     def get_parent_class_source(self):
         return inspect.getsource(self.obj.__class__)
 
     def get_source_file(self):
         return inspect.getsourcefile(self.obj.__class__)
-
-
-

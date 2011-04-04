@@ -7,19 +7,32 @@
 </head>
 <body>
 
-<h2>Object Attributes</h2>
-
-<ul>
-  {% for attr in obj_attrs %}
-    <li>{{ attr }}</li>
-  {% endfor %}
-</ul>
+<h2>
+  Object is type: {{ cb.get_class_name() }}
+</h2>
 
 <h2>Class Hierarchy</h2>
 
 {% for source in class_sources %}
   {{ source }}
 {% endfor %}
+
+<h2>Object Attributes</h2>
+
+<ul>
+  {% for attr in cb.get_attrs() %}
+    <li><a href="/view_attr/{{ attr[0] }}">{{ attr[0] }}</a></li>
+  {% endfor %}
+</ul>
+
+
+<h2>Traceback</h2>
+
+<ul>
+  {% for frame in traceback %}
+    <li>{{ frame }}</li>
+  {% endfor %}
+</ul>
 
 </body>
 </html>

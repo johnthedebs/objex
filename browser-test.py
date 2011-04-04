@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 from codebrowser import CodeBrowser
 
+import sys
+import traceback
+
 from bottle import debug, route, run
 from jinja2 import Environment, PackageLoader, Template
 from pygments import highlight
@@ -23,6 +26,8 @@ class Cat(Animal, Cute):
     def speak(self):
         super(Cat, self).speak("meow")
 
+c = Cat()
+
 
 # HELPER FUNCTIONS
 def highlight_source(source):
@@ -43,16 +48,17 @@ def render_results(context, template_name="index.html"):
 
 def show_object_info(obj):
     highlighted_sources = []
-
     cb = CodeBrowser(obj)
-    class_sources = cb.get_class_history()
 
+    # Get highlighted class history
+    class_sources = cb.get_class_history()
     for source in class_sources:
         highlighted_sources.append( highlight_source(source) )
 
     context = {
-        "obj_attrs": cb.get_attrs(),
+        "cb": cb,
         "class_sources": highlighted_sources,
+        "traceback": traceback.extract_stack(),
     }
 
     page = render_results(context)
@@ -62,12 +68,12 @@ def show_object_info(obj):
 # URLS
 @route("/")
 def index():
-    c = Cat()
     return show_object_info(c)
 
-@route("/class_code/:class_code")
-def class_code(class_code):
-    return class_code
+@route("/view_attr/:attr")
+def class_code(attr):
+    attr_obj = getattr(c, attr)
+    return show_object_info(attr_obj)
 
 
 # START SERVER
