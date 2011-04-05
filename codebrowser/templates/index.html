@@ -7,9 +7,9 @@
 </head>
 <body>
 
-<h2>
-  Object is type: {{ cb.get_class_name() }}
-</h2>
+<h2>Object is type: {{ cb.get_class_name() }}</h2>
+
+<h2>Object looks like: {{ cb }}</h2>
 
 <h2>Class Hierarchy</h2>
 
@@ -17,11 +17,17 @@
   {{ source }}
 {% endfor %}
 
+
+<h2>Object Source</h2>
+
+{{ object_source }}
+
+
 <h2>Object Attributes</h2>
 
 <ul>
   {% for attr in cb.get_attrs() %}
-    <li><a href="/view_attr/{{ attr[0] }}">{{ attr[0] }}</a></li>
+    <li><a href="/attr/{{ attr[0] }}">{{ attr[0] }}</a></li>
   {% endfor %}
 </ul>
 

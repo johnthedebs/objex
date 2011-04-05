@@ -4,7 +4,7 @@ from codebrowser import CodeBrowser
 import sys
 import traceback
 
-from bottle import debug, route, run
+from bottle import debug, redirect, route, run
 from jinja2 import Environment, PackageLoader, Template
 from pygments import highlight
 from pygments.lexers import PythonLexer
@@ -26,7 +26,10 @@ class Cat(Animal, Cute):
     def speak(self):
         super(Cat, self).speak("meow")
 
-c = Cat()
+env = {
+    "obj": Cat(),
+    "trail": [],
+}
 
 
 # HELPER FUNCTIONS
@@ -40,15 +43,15 @@ def render_results(context, template_name="index.html"):
     """
     Template rendering boilerplate goes here.
     """
-    env = Environment(loader=PackageLoader("codebrowser", "templates"))
-    template = env.get_template(template_name)
+    environment = Environment(loader=PackageLoader("codebrowser", "templates"))
+    template = environment.get_template(template_name)
     styles = HtmlFormatter().get_style_defs(".highlight")
     context["styles"] = styles
     return template.render(context)
 
 def show_object_info(obj):
-    highlighted_sources = []
     cb = CodeBrowser(obj)
+    highlighted_sources = []
 
     # Get highlighted class history
     class_sources = cb.get_class_history()
@@ -58,6 +61,7 @@ def show_object_info(obj):
     context = {
         "cb": cb,
         "class_sources": highlighted_sources,
+        "object_source": cb.get_object_source(),
         "traceback": traceback.extract_stack(),
     }
 
@@ -68,12 +72,16 @@ def show_object_info(obj):
 # URLS
 @route("/")
 def index():
-    return show_object_info(c)
+    return show_object_info(env["obj"])
 
-@route("/view_attr/:attr")
+@route("/attr/:attr")
 def class_code(attr):
-    attr_obj = getattr(c, attr)
-    return show_object_info(attr_obj)
+    global env
+    # Save current object
+    env["trail"].append(env["obj"])
+    # Set new object
+    env["obj"] = getattr(env["obj"], attr)
+    redirect("/")
 
 
 # START SERVER
