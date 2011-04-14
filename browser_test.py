@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from codebrowser import CodeBrowser
+from objex import Objex
 
 import sys
 import traceback
@@ -43,14 +43,14 @@ def render_results(context, template_name="index.html"):
     """
     Template rendering boilerplate goes here.
     """
-    environment = Environment(loader=PackageLoader("codebrowser", "templates"))
+    environment = Environment(loader=PackageLoader("objex", "templates"))
     template = environment.get_template(template_name)
     styles = HtmlFormatter().get_style_defs(".highlight")
     context["styles"] = styles
     return template.render(context)
 
 def show_object_info(obj):
-    cb = CodeBrowser(obj)
+    cb = Objex(obj)
     highlighted_sources = []
 
     # Get highlighted class history
@@ -63,28 +63,29 @@ def show_object_info(obj):
         "class_sources": highlighted_sources,
         "object_source": cb.get_object_source(),
         "traceback": traceback.extract_stack(),
+        "trail": env["trail"],
     }
 
     page = render_results(context)
     return page
 
 
-# URLS
-@route("/")
-def index():
-    return show_object_info(env["obj"])
+def explore_object(obj):
+    # URLS
+    @route("/")
+    def index():
+        return show_object_info(env["obj"])
 
-@route("/attr/:attr")
-def class_code(attr):
-    global env
-    # Save current object
-    env["trail"].append(env["obj"])
-    # Set new object
-    env["obj"] = getattr(env["obj"], attr)
-    redirect("/")
+    @route("/attr/:attr")
+    def class_code(attr):
+        global env
+        # Save current object
+        env["trail"].append(env["obj"])
+        # Set new object
+        env["obj"] = getattr(env["obj"], attr)
+        redirect("/")
 
-
-# START SERVER
-debug(mode=True)
-run(host="localhost", port=8080, reloader=True)
+    # START SERVER
+    debug(mode=True)
+    run(host="localhost", port=8080, reloader=False)
 

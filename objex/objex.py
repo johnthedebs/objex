@@ -18,7 +18,7 @@ def highlight_source(func):
         return highlight(source, PythonLexer(), HtmlFormatter())
     return new_func
 
-class CodeBrowser(object):
+class Objex(object):
 
     def __init__(self, obj):
         self.obj = obj
@@ -80,6 +80,9 @@ class CodeBrowser(object):
         try:
             return inspect.getsource(self.obj)
         except TypeError:
+            # help() would be nice, but for some reason this prints to the
+            # terminal and causes problems...
+            #return help(self.obj)
             return ""
 
     def get_parent_class_source(self):
