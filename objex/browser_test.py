@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 from objex import Objex
 
+import os.path
 import sys
 import traceback
 
-from bottle import debug, redirect, route, run
+from bottle import debug, error, redirect, request, response, route, run, static_file
 from jinja2 import Environment, PackageLoader, Template
 from pygments import highlight
 from pygments.lexers import PythonLexer
@@ -12,6 +13,8 @@ from pygments.formatters import HtmlFormatter
 
 
 # SETUP
+ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
+
 class Animal(object):
     def speak(self, call):
         print call
@@ -27,10 +30,10 @@ class Cat(Animal, Cute):
         super(Cat, self).speak("meow")
 
 env = {
-    "obj": Cat(),
+    "obj": None,
+    "history": [],
     "trail": [],
 }
-
 
 # HELPER FUNCTIONS
 def highlight_source(source):
@@ -58,10 +61,24 @@ def show_object_info(obj):
     for source in class_sources:
         highlighted_sources.append( highlight_source(source) )
 
+    internal_attrs = []
+    private_attrs = []
+    attrs = []
+    for attr in cb.get_attrs():
+        if str(attr[0]).startswith("__"):
+            internal_attrs.append(attr)
+        elif str(attr[0]).startswith("_"):
+            private_attrs.append(attr)
+        else:
+            attrs.append(attr)
+
     context = {
+        "attrs": attrs,
         "cb": cb,
         "class_sources": highlighted_sources,
+        "internal_attrs": internal_attrs,
         "object_source": cb.get_object_source(),
+        "private_attrs": private_attrs,
         "traceback": traceback.extract_stack(),
         "trail": env["trail"],
     }
@@ -69,23 +86,49 @@ def show_object_info(obj):
     page = render_results(context)
     return page
 
+# URLS
+@route("/")
+def index():
+    if not env["obj"]:
+        env["obj"] = request
+    return show_object_info(env["obj"])
 
-def explore_object(obj):
-    # URLS
-    @route("/")
-    def index():
-        return show_object_info(env["obj"])
+@route("/retrace/:num_steps")
+def retrace_steps(num_steps):
+    global env
+    index = -int(num_steps)
+    try:
+        env["obj"] = env["trail"][index]
+        del env["trail"][index]
+    except IndexError:
+        pass
+    redirect("/")
 
-    @route("/attr/:attr")
-    def class_code(attr):
-        global env
-        # Save current object
-        env["trail"].append(env["obj"])
-        # Set new object
-        env["obj"] = getattr(env["obj"], attr)
-        redirect("/")
+@route("/static/:path#.+#")
+def serve_static(path):
+    return static_file(path, root="%s/static" % ROOT_DIR)
 
-    # START SERVER
+@route("/attr/:attr")
+def view_attr(attr):
+    global env
+    # Save current object
+    env["trail"].append(env["obj"])
+    env["history"].append(env["obj"])
+    # Set new object
+    env["obj"] = getattr(env["obj"], attr)
+    redirect("/")
+
+@error(404)
+def error404(error):
+    return "Nothing here, sorry."
+
+
+# START EXPLORING
+def explore_object(obj=None):
+    env["obj"] = obj
+
     debug(mode=True)
-    run(host="localhost", port=8080, reloader=True)
+    run(host="localhost", port=8000, reloader=False)
 
+if __name__ == "__main__":
+    explore_object(Cat())

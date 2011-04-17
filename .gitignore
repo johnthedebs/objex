@@ -1,1 +1,4 @@
 *.pyc
+.livereload
+.sass-cache
+objex.egg-info

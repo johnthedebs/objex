@@ -1,0 +1,103 @@
+@import "compass/reset"                                                         
+@import "compass/css3"
+@import "compass/utilities"
+@import "fancy-buttons"
+
+// COLORS
+$base03:    #002b36
+$base02:    #073642
+$base01:    #586e75
+$base00:    #657b83
+$base0:     #839496
+$base1:     #93a1a1
+$base2:     #eee8d5
+$base3:     #fdf6e3
+$yellow:    #b58900
+$orange:    #cb4b16
+$red:       #dc322f
+$magenta:   #d33682
+$violet:    #6c71c4
+$blue:      #268bd2
+$cyan:      #2aa198
+$green:     #859900
+
+
+body
+    background: $base2
+    font-family: "Arvo"
+    h2
+        color: $yellow
+        font-size: 1.4em
+        margin: 0 0 0.5em 0
+    hr
+        border: 0 0 1px 0
+        border-color: $base3
+        height: 1px
+    ul
+        li
+            a
+                color: $blue
+    label
+        +inline-block
+        color: $base0
+        width: 120px
+    pre
+        font-family: monospace
+    .even, .odd
+        padding: 0.3em 0.5em
+    .odd 
+        background: $base2
+    .separator
+        color: $orange
+
+.attributes
+    font-size: 0.8em
+
+.highlight
+    padding: 0.2em 0.4em
+    background: $base2
+    font-size: 12px
+    .remaining-lines
+        display: none
+
+.none
+    color: $base0
+
+.object-info
+    +border-radius(3px)
+    +box-shadow
+    background: $base3
+    padding: 8px
+    margin: 10px auto
+    width: 960px
+    .info-line
+        color: $blue
+        a
+            color: $blue
+    .column
+        +inline-block
+        margin-right: 10px
+        vertical-align: top
+        width: 310px
+        &.last
+            margin-right: 0
+        h2
+            text-align: center
+
+// PYGMENTS HIGHLIGHTING
+.bp
+    color: $base01
+.c
+    color: $base0
+.k, .ow
+    color: $green
+.mi, .nb, .nc, .nd, .nf
+    color: $blue
+.ne
+    color: $orange
+.n, .o, .p
+    color: $base01
+.s, .sd
+    color: $cyan
+.si
+    color: $red

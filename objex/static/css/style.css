@@ -1,0 +1,63 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
+
+body { line-height: 1; }
+
+ol, ul { list-style: none; }
+
+table { border-collapse: collapse; border-spacing: 0; }
+
+caption, th, td { text-align: left; font-weight: normal; vertical-align: middle; }
+
+q, blockquote { quotes: none; }
+q:before, q:after, blockquote:before, blockquote:after { content: ""; content: none; }
+
+a img { border: none; }
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+
+/* incase an inverted custom gradient isn't specified */
+.fancy-button-reset-base-class { font-family: "Lucida Grande", Lucida, Arial, sans-serif; background: url('../img/button_bg.png?1298160710') repeat-x bottom left; margin: 0; width: auto; overflow: visible; display: inline-block; cursor: pointer; text-decoration: none; border-style: solid; font-weight: bold; }
+.fancy-button-reset-base-class::-moz-focus-inner { border: none; padding: 0; }
+.fancy-button-reset-base-class:focus { outline: none; }
+
+body { background: #eee8d5; font-family: "Arvo"; }
+body h2 { color: #b58900; font-size: 1.4em; margin: 0 0 0.5em 0; }
+body hr { border: 0 0 1px 0; border-color: #fdf6e3; height: 1px; }
+body ul li a { color: #268bd2; }
+body label { display: -moz-inline-box; -moz-box-orient: vertical; display: inline-block; vertical-align: middle; *vertical-align: auto; color: #839496; width: 120px; }
+body label { *display: inline; }
+body pre { font-family: monospace; }
+body .even, body .odd { padding: 0.3em 0.5em; }
+body .odd { background: #eee8d5; }
+body .separator { color: #cb4b16; }
+
+.attributes { font-size: 0.8em; }
+
+.highlight { padding: 0.2em 0.4em; background: #eee8d5; font-size: 12px; }
+.highlight .remaining-lines { display: none; }
+
+.none { color: #839496; }
+
+.object-info { -moz-border-radius: 3px; -webkit-border-radius: 3px; -o-border-radius: 3px; -ms-border-radius: 3px; -khtml-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 0px 0px 5px #333333; -webkit-box-shadow: 0px 0px 5px #333333; -o-box-shadow: 0px 0px 5px #333333; box-shadow: 0px 0px 5px #333333; background: #fdf6e3; padding: 8px; margin: 10px auto; width: 960px; }
+.object-info .info-line { color: #268bd2; }
+.object-info .info-line a { color: #268bd2; }
+.object-info .column { display: -moz-inline-box; -moz-box-orient: vertical; display: inline-block; vertical-align: middle; *vertical-align: auto; margin-right: 10px; vertical-align: top; width: 310px; }
+.object-info .column { *display: inline; }
+.object-info .column.last { margin-right: 0; }
+.object-info .column h2 { text-align: center; }
+
+.bp { color: #586e75; }
+
+.c { color: #839496; }
+
+.k, .ow { color: #859900; }
+
+.mi, .nb, .nc, .nd, .nf { color: #268bd2; }
+
+.ne { color: #cb4b16; }
+
+.n, .o, .p { color: #586e75; }
+
+.s, .sd { color: #2aa198; }
+
+.si { color: #dc322f; }

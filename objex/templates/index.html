@@ -1,51 +1,148 @@
 <html>
 <head>
-<title>CodeBrowser</title>
+
+<title>Objex</title>
+<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
 <style type="text/css">
+{#
   {{ styles }}
+#}
 </style>
+<link href="http://fonts.googleapis.com/css?family=Arvo:regular" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
 
-<h2>Object is type: {{ cb.get_class_name() }}</h2>
+<div class="object-info">
+  <h2>Object Info</h2>
 
-<h2>Object looks like: {{ cb }}</h2>
+  <div class="info-line even"><label>Type</label> {{ cb.get_class_name() }}</div>
 
-<h2>Class Hierarchy</h2>
+  <div class="info-line odd"><label>Printed</label> {{ cb }}</div>
 
-{% for source in class_sources %}
-  {{ source }}
-{% endfor %}
+  <div class="info-line even">
+    <label>Trail</label>
 
+    {% for breadcrumb in trail %}
+      <a href="/retrace/{{ trail|length - loop.index + 1 }}">
+        {% if breadcrumb.__unicode__ %}
+            str {{ breadcrumb.__unicode__ }}
+          {% elif breadcrumb.__name__ %}
+            name {{ breadcrumb.__name__ }}
+          {{ breadcrumb }}
+        {% else %}
+            object
+        {% endif %}
+      </a>
+      {% if not loop.last %}<span class="separator">&gt;</span>{% endif %}
+    {% endfor %}
+  </div>
+</div>
 
-<h2>Object Source</h2>
+<div class="object-info">
+  <h2>Class Hierarchy</h2>
 
-{{ object_source }}
-
-
-<h2>Object Attributes</h2>
-
-<ul>
-  {% for attr in cb.get_attrs() %}
-    <li><a href="/attr/{{ attr[0] }}">{{ attr[0] }}</a></li>
+  {% for source in class_sources %}
+      {{ source }}
+    {% if not loop.last %}
+      <hr />
+    {% endif %}
   {% endfor %}
-</ul>
+</div>
 
+<div class="object-info">
+  <h2>Object Source</h2>
 
-<h2>Object Trail</h2>
+  {{ object_source }}
+</div>
 
-{% for breadcrumb in trail %}
-    {% breadcrumb %}
-{% endfor %}
+<div class="object-info attributes">
+  <div class="column">
+    <h2>Attributes</h2>
 
+    <ul>
+      {% for attr in attrs %}
+      <li class="{% if loop.index%2 == 0 %}odd{% else %}even{% endif %}">
+      <a href="/attr/{{ attr[0] }}">{{ attr[0] }}</a>
+      </li>
+    {% endfor %}
+    {% if attrs|length == 0 %}
+      <li><p class="none">None.</p></li>
+    {% endif %}
+  </ul>
+</div>
 
-<h2>Traceback</h2>
+<div class="column">
+  <h2>Private Attributes</h2>
 
-<ul>
-  {% for frame in traceback %}
-    <li>{{ frame }}</li>
+  <ul>
+    {% for attr in private_attrs %}
+    <li class="{% if loop.index%2 == 0 %}odd{% else %}even{% endif %}">
+    <a href="/attr/{{ attr[0] }}">{{ attr[0] }}</a>
+    </li>
   {% endfor %}
+  {% if private_attrs|length == 0 %}
+    <li><p class="none">None.</p></li>
+  {% endif %}
 </ul>
+    </div>
+
+    <div class="column last">
+      <h2>Internal Attributes</h2>
+
+      <ul>
+        {% for attr in internal_attrs %}
+        <li class="{% if loop.index%2 == 0 %}odd{% else %}even{% endif %}">
+        <a href="/attr/{{ attr[0] }}">{{ attr[0] }}</a>
+        </li>
+      {% endfor %}
+      {% if internal_attrs|length == 0 %}
+        <li><p class="none">None.</p></li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+
+
+{#
+<div class="object-info">
+  <h2>Traceback</h2>
+
+  <ul>
+    {% for frame in traceback %}
+      <li>{{ frame }}</li>
+    {% endfor %}
+  </ul>
+</div>
+#}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("pre").each(function () {
+            var content = $(this).html(),
+            first_line = "",
+            remaining_lines = "";
+            for (var i=0, first=false; i<content.length; i++) {
+                if (first) {
+                    remaining_lines += content[i];
+                } else {
+                    if (content[i] === "\n") {
+                        first = true;
+                    } else {
+                        first_line += content[i];
+                    }
+                }
+            }
+            $(this).html('<div class="first-line">' + first_line + '</div>');
+            $(this).append('<div class="remaining-lines">' + remaining_lines + '</div>');
+        });
+
+        $(".first-line").live("click", function () {
+            $(".remaining-lines").toggle();
+        });
+    });
+</script>
 
 </body>
 </html>
