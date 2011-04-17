@@ -77,7 +77,6 @@ def show_object_info(obj):
         "cb": cb,
         "class_sources": highlighted_sources,
         "internal_attrs": internal_attrs,
-        "object_source": cb.get_object_source(),
         "private_attrs": private_attrs,
         "traceback": traceback.extract_stack(),
         "trail": env["trail"],

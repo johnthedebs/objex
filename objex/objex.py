@@ -24,8 +24,12 @@ class Objex(object):
         self.obj = obj
 
     def __unicode__(self):
+        if hasattr(self.obj, "__unicode__"):
+            return u"%s" % self.obj.__unicode__
         if hasattr(self.obj, "__name__"):
             return u"%s" % self.obj.__name__
+        if hasattr(self.obj, "__class__"):
+            return u"%s instance" % self.obj.__class__.__name__
         return u"%s" % type(self.obj)
 
     def get_attrs(self):
@@ -71,22 +75,47 @@ class Objex(object):
     def get_class_source(self):
         return inspect.getsource(self.obj.__class__)
 
+    def get_docstring(self):
+        return inspect.getdoc(self.obj)
+
+    def get_file(self):
+        try:
+            if inspect.isfunction(self.obj):
+                return inspect.getsourcefile(self.obj)
+            else:
+                return inspect.getsourcefile(self.obj.__class__)
+        except TypeError:
+            # Error: Built-in module, class, or function.
+            return ""
+
     @highlight_source
-    def get_object_source(self):
+    def get_source(self):
         """
         Gets a given object's code. Works with module, class, method,
         function, traceback, frame, or code.
         """
-        try:
+        if inspect.isfunction(self.obj) or inspect.ismodule(self.obj) \
+           or inspect.isclass(self.obj):
             return inspect.getsource(self.obj)
+        try:
+            return inspect.getsource(self.obj.__class__)
         except TypeError:
             # help() would be nice, but for some reason this prints to the
             # terminal and causes problems...
-            #return help(self.obj)
             return ""
 
+    def get_source_lines(self):
+        return inspect.getsourcelines(self.obj)
+
     def get_parent_class_source(self):
+        if inspect.isfunction(self.obj):
+            return inspect.getsource(self.obj)
         return inspect.getsource(self.obj.__class__)
 
+    def get_repr(self):
+        return u"%s" % repr(self.obj)
+
     def get_source_file(self):
+        if inspect.isfunction(self.obj):
+            return inspect.getsourcefile(self.obj)
         return inspect.getsourcefile(self.obj.__class__)

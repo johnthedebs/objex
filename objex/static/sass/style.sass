@@ -35,6 +35,7 @@ body
         height: 1px
     ul
         li
+            +clearfix
             a
                 color: $blue
     label
@@ -53,25 +54,36 @@ body
 .attributes
     font-size: 0.8em
 
+.docstring
+    +inline-block
+    vertical-align: top
+    width: 80%
+
+.extras
+    +float-right
+    color: $base1
+
 .highlight
     padding: 0.2em 0.4em
     background: $base2
-    font-size: 12px
+    font-size: 13px
     .remaining-lines
         display: none
+    &:hover
+        background: red
 
 .none
-    color: $base0
+    color: $base1
 
 .object-info
     +border-radius(3px)
-    +box-shadow
+    +single-box-shadow($base1, $blur: 4px)
     background: $base3
     padding: 8px
     margin: 10px auto
     width: 960px
     .info-line
-        color: $blue
+        color: $violet
         a
             color: $blue
     .column
@@ -84,6 +96,12 @@ body
         h2
             text-align: center
 
+.source-code
+    +inline-block
+    margin-top: 0.2em
+    vertical-align: top
+    width: 820px
+
 // PYGMENTS HIGHLIGHTING
 .bp
     color: $base01
@@ -91,9 +109,13 @@ body
     color: $base0
 .k, .ow
     color: $green
+.kn
+    color: $green
 .mi, .nb, .nc, .nd, .nf
     color: $blue
 .ne
+    color: $orange
+.nn
     color: $orange
 .n, .o, .p
     color: $base01
