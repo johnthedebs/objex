@@ -13,7 +13,7 @@ q:before, q:after, blockquote:before, blockquote:after { content: ""; content: n
 
 a img { border: none; }
 
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary { display: block; }
 
 /* incase an inverted custom gradient isn't specified */
 .fancy-button-reset-base-class { font-family: "Lucida Grande", Lucida, Arial, sans-serif; background: url('../img/button_bg.png?1303021975') repeat-x bottom left; margin: 0; width: auto; overflow: visible; display: inline-block; cursor: pointer; text-decoration: none; border-style: solid; font-weight: bold; }
