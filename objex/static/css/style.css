@@ -28,6 +28,8 @@ body ul li a { color: #268bd2; }
 body label { display: -moz-inline-box; -moz-box-orient: vertical; display: inline-block; vertical-align: middle; *vertical-align: auto; color: #839496; width: 120px; }
 body label { *display: inline; }
 body pre { font-family: monospace; }
+body .first-line { cursor: pointer; }
+body .first-line:hover { background: #dfd4b1; }
 body .even, body .odd { padding: 0.3em 0.5em; }
 body .odd { background: #eee8d5; }
 body .separator { color: #cb4b16; }
