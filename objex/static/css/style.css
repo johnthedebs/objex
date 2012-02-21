@@ -41,7 +41,6 @@ body .separator { color: #cb4b16; }
 
 .highlight { padding: 0.2em 0.4em; background: #eee8d5; font-size: 13px; }
 .highlight .remaining-lines { display: none; }
-.highlight:hover { background: red; }
 
 .none { color: #93a1a1; }
 

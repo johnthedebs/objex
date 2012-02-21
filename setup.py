@@ -24,7 +24,7 @@ setup(
     description="Code object exploration utility",
     author="John Debs",
     author_email="johnthedebs@gmail.com",
-    url="http://github.com/johnthedebs/django-deploy",
+    url="http://github.com/johnthedebs/objex",
     packages=find_packages(),
     install_requires=get_requirements(),
     classifiers=(

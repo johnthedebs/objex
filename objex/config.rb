@@ -14,4 +14,5 @@ javascripts_dir = "static/js"
 # To enable relative paths to assets via compass helper functions:
 relative_assets = true
 
+# For use with FireSass:
 #sass_options = {:debug_info => true}

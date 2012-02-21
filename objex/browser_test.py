@@ -127,7 +127,7 @@ def explore_object(obj=None):
     env["obj"] = obj
 
     debug(mode=True)
-    run(host="localhost", port=8000, reloader=False)
+    run(host="localhost", port=8001, reloader=False)
 
 if __name__ == "__main__":
     explore_object(Cat())

@@ -100,8 +100,8 @@ class Objex(object):
         try:
             return inspect.getsource(self.obj.__class__)
         except TypeError:
-            # help() would be nice, but for some reason this prints to the
-            # terminal and causes problems...
+            # help() would be nice here but I haven't figured out how to
+            # capture its output yet
             return ""
 
     def get_source_lines(self):
