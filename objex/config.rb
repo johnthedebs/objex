@@ -1,5 +1,4 @@
 # Require any additional compass plugins here.
-require "fancy-buttons"
 
 # Project settings
 project_type = :stand_alone
