@@ -20,6 +20,10 @@ def highlight_source(func):
 
 class Objex(object):
 
+    # This attribute is not consistent across PyPy, CPython 2.x,
+    # and CPython 2.7
+    exclude = set(['__abstractmethods__'])
+
     def __init__(self, obj):
         self.obj = obj
 
@@ -34,7 +38,8 @@ class Objex(object):
 
     def get_attrs(self):
         attrs = [ (attr, self.get_attr_type(attr)) \
-                    for attr in dir(self.obj) ]
+                    for attr in dir(self.obj)
+                    if attr not in self.exclude ]
         return attrs
 
     def get_attr_type(self, attr):
@@ -94,7 +99,9 @@ class Objex(object):
         Gets a given object's code. Works with module, class, method,
         function, traceback, frame, or code.
         """
-        if inspect.isfunction(self.obj) or inspect.ismodule(self.obj) \
+        if self.obj in [object, type]:
+            return 'builtin'
+        elif inspect.isfunction(self.obj) or inspect.ismodule(self.obj) \
            or inspect.isclass(self.obj):
             return inspect.getsource(self.obj)
         try:
